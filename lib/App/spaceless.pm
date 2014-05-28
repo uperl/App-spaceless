@@ -15,7 +15,7 @@ use Pod::Usage qw( pod2usage );
 =head1 DESCRIPTION
 
 This module provides the machinery for the L<spaceless> app, a program
-that helps convert PATH style environment variables to spaceless varities
+that helps convert PATH style environment variables to spaceless varieties
 on Windows systems (including Cygwin).
 
 =cut

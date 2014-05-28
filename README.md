@@ -5,7 +5,7 @@ Convert PATH type environment variables to spaceless versions
 # DESCRIPTION
 
 This module provides the machinery for the [spaceless](https://metacpan.org/pod/spaceless) app, a program
-that helps convert PATH style environment variables to spaceless varities
+that helps convert PATH style environment variables to spaceless varieties
 on Windows systems (including Cygwin).
 
 # AUTHOR
