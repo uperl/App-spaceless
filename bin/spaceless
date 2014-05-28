@@ -71,6 +71,10 @@ Print help message and exit
 
 Generate korn shell configuration
 
+=head2 --no-cygwin
+
+Remove any cygwin paths.  Has no affect on non cygwin platforms.
+
 =head2 --power
 
 Generate Power shell configuration

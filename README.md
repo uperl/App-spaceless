@@ -57,9 +57,17 @@ Write configuration to _filename_ instead of standard output
 
 Generate fish shell configuration
 
+## --help
+
+Print help message and exit
+
 ## --korn
 
 Generate korn shell configuration
+
+## --no-cygwin
+
+Remove any cygwin paths.  Has no affect on non cygwin platforms.
 
 ## --power
 
@@ -68,6 +76,15 @@ Generate Power shell configuration
 ## --sh
 
 Generate bourne shell configuration
+
+## --trim | -t
+
+Trim non-existing directories.  This is a good idea since such directories can 
+sometimes cause [spaceless](https://metacpan.org/pod/spaceless) to die.
+
+## --version | v
+
+Print version number and exit
 
 # AUTHOR
 
