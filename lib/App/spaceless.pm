@@ -37,6 +37,7 @@ sub main
   my $version;
   my $trim;
   my $cygwin = 1;
+  my $expand;
 
   GetOptions(
     'csh'       => sub { $shell = Shell::Guess->c_shell },
@@ -47,6 +48,7 @@ sub main
     'korn'      => sub { $shell = Shell::Guess->korn_shell },
     'power'     => sub { $shell = Shell::Guess->power_shell },
     'no-cygwin' => sub { $cygwin = 0 if $^O eq 'cygwin' },
+    'expand|x'  => \$expand,
     'trim|t'    => \$trim,
     'f=s'       => \$file,
     'help|h'    => \$help,
@@ -73,10 +75,18 @@ sub main
   $config->echo_off;
   my $sep = quotemeta $Config{path_sep};
 
+  my $to_long = $^O eq 'cygwin' ? sub { Cygwin::win_to_posix_path(Win32::GetLongPathName(Cygwin::posix_to_win_path($_))) } : sub { Win32::GetLongPathName($_[0]) };
+
+  my $mutator = $expand ? sub { map { $to_long->($_) } @_ } : sub { win32_space_be_gone(@_) };
+
   foreach my $var (@ARGV)
   {
     $config->set_path(
-      $var => grep { $trim ? -d $_ : 1 } $filter->(win32_space_be_gone grep { $cygwin ? 1 : $_ =~ qr{^([A-Za-z]:|/cygdrive/[A-Za-z])} } split /$sep/, $ENV{$var} // '')
+      $var => $filter->($mutator->(
+        grep { $trim ? -d $_ : 1 } 
+        grep { $cygwin ? 1 : $_ =~ qr{^([A-Za-z]:|/cygdrive/[A-Za-z])} } 
+        split /$sep/, $ENV{$var} // ''
+      ))
     );
   }
 

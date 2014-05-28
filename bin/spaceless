@@ -59,6 +59,10 @@ Generate c shell configuration
 
 Write configuration to I<filename> instead of standard output
 
+=head2 --expand | -x
+
+Expand short paths to long paths (adding any spaces that may be back in)
+
 =head2 --fish
 
 Generate fish shell configuration

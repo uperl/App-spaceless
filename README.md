@@ -53,6 +53,10 @@ Generate c shell configuration
 
 Write configuration to _filename_ instead of standard output
 
+## --expand | -x
+
+Expand short paths to long paths (adding any spaces that may be back in)
+
 ## --fish
 
 Generate fish shell configuration
