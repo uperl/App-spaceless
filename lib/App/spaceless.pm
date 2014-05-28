@@ -72,7 +72,7 @@ sub main
   foreach my $var (@ARGV)
   {
     $config->set_path(
-      $var => $filter->(win32_space_be_gone split /$sep/, $ENV{$var})
+      $var => $filter->(win32_space_be_gone split /$sep/, $ENV{$var} // '')
     );
   }
 
