@@ -1,0 +1,4 @@
+Module::Build
+Shell::Config::Generate
+Shell::Guess
+Test::More
