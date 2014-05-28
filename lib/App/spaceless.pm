@@ -20,42 +20,59 @@ on Windows systems (including Cygwin).
 
 =cut
 
+sub _running_shell
+{
+  state $shell;
+  $shell = Shell::Guess->running_shell unless defined $shell;
+  $shell;
+}
+
 sub main
 {
   shift;
   local @ARGV = @_;
   my $shell;
   my $file;
+  my $help;
+  my $version;
 
   GetOptions(
-    'csh'     => sub { $shell = Shell::Guess->c_shell },
-    'sh'      => sub { $shell = Shell::Guess->bourne_shell },
-    'cmd'     => sub { $shell = Shell::Guess->cmd_shell },
-    'command' => sub { $shell = Shell::Guess->command_shell },
-    'fish'    => sub { $shell = Shell::Guess->fish_shell },
-    'korn'    => sub { $shell = Shell::Guess->korn_shell },
-    'power'   => sub { $shell = Shell::Guess->power_shell },
-    'f=s'     => \$file,
-    'help|h'  => sub { pod2usage({ -verbose => 2}) },
-    'version'      => sub {
-      say 'App::spaceless version ', ($App::spaceless::VERSION // 'dev');
-      return 1;
-    },
+    'csh'       => sub { $shell = Shell::Guess->c_shell },
+    'sh'        => sub { $shell = Shell::Guess->bourne_shell },
+    'cmd'       => sub { $shell = Shell::Guess->cmd_shell },
+    'command'   => sub { $shell = Shell::Guess->command_shell },
+    'fish'      => sub { $shell = Shell::Guess->fish_shell },
+    'korn'      => sub { $shell = Shell::Guess->korn_shell },
+    'power'     => sub { $shell = Shell::Guess->power_shell },
+    'f=s'       => \$file,
+    'help|h'    => \$help,
+    'version|v' => \$version,
   );
 
-  $shell = Shell::Guess->running_shell unless defined $shell;
+  if($help)
+  {
+    pod2usage({ -verbose => 2 });
+  }
+  
+  if($version)
+  {
+    say 'App::spaceless version ', ($App::spaceless::VERSION // 'dev');
+    return 1;
+  }
+
+  $shell = _running_shell() unless defined $shell;
+
+  my $filter = $^O eq 'cygwin' && $shell->is_win32 ? sub { map { Cygwin::posix_to_win_path($_) } @_ } : sub { @_ };
 
   @ARGV = ('PATH') unless @ARGV;
   my $config = Shell::Config::Generate->new;
   $config->echo_off;
   my $sep = quotemeta $Config{path_sep};
 
-  *filter = $^O eq 'cygwin' && $shell->is_win32 ? sub { map { Cygwin::posix_to_win_path($_) } @_ } : sub { @_ };
-
   foreach my $var (@ARGV)
   {
     $config->set_path(
-      $var => filter(win32_space_be_gone split /$sep/, $ENV{$var})
+      $var => $filter->(win32_space_be_gone split /$sep/, $ENV{$var})
     );
   }
 
