@@ -36,6 +36,7 @@ sub main
   my $help;
   my $version;
   my $trim;
+  my $cygwin = 1;
 
   GetOptions(
     'csh'       => sub { $shell = Shell::Guess->c_shell },
@@ -45,6 +46,7 @@ sub main
     'fish'      => sub { $shell = Shell::Guess->fish_shell },
     'korn'      => sub { $shell = Shell::Guess->korn_shell },
     'power'     => sub { $shell = Shell::Guess->power_shell },
+    'no-cygwin' => sub { $cygwin = 0 if $^O eq 'cygwin' },
     'trim|t'    => \$trim,
     'f=s'       => \$file,
     'help|h'    => \$help,
@@ -74,7 +76,7 @@ sub main
   foreach my $var (@ARGV)
   {
     $config->set_path(
-      $var => grep { $trim ? -d $_ : 1 } $filter->(win32_space_be_gone split /$sep/, $ENV{$var} // '')
+      $var => grep { $trim ? -d $_ : 1 } $filter->(win32_space_be_gone grep { $cygwin ? 1 : $_ =~ qr{^([A-Za-z]:|/cygdrive/[A-Za-z])} } split /$sep/, $ENV{$var} // '')
     );
   }
 

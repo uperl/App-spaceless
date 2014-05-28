@@ -3,7 +3,7 @@ use warnings;
 use v5.10;
 use Capture::Tiny qw( capture capture_stdout );
 use App::spaceless;
-use Test::More tests => 7;
+use Test::More tests => 8;
 use Env qw( @PATH );
 use File::Temp qw( tempdir );
 use Path::Class qw( file dir );
@@ -281,4 +281,34 @@ subtest 'trim' => sub {
   
   like $path_set, qr{dir1}, 'contains dir1';
   unlike $path_set, qr{dir2}, 'does not contain dir2';
+};
+
+subtest '--no-cygwin' => sub {
+  plan skip_all => "cygwin only" unless $^O eq 'cygwin';
+  my $tmp = dir( tempdir ( CLEANUP => 1 ));
+  plan skip_all => "$tmp matches dir1, dir2 or dir3" if $tmp =~ /dir[123]/;
+  
+  my $dir3 = Cygwin::posix_to_win_path($tmp->subdir('dir3'));
+  $dir3 =~ s{^(.):\\(.*)$}{/cygdrive/$1/$2};
+  $dir3 =~ s{\\}{/}g;
+  
+  $ENV{FOO} = join $Config{path_sep}, $tmp->subdir('dir1'), $dir3;
+  $_->mkpath(0,0700) for map { $tmp->subdir($_) } qw( dir1 dir2 dir3 );
+  note "FOO=$ENV{FOO}";
+  
+  my $path_set;
+  
+  subtest 'spaceless --no-cygwin --cmd FOO' => sub {
+    my($out, $err, $exit) = capture { App::spaceless->main('--no-cygwin', '--cmd', 'FOO') };
+    is $exit, 0, 'exit okay';
+    is $err, '', 'no error';
+    isnt $out, '', 'some output';
+    $path_set = $out;
+  };
+  
+  note $path_set;
+  
+  unlike $path_set, qr{dir1}, "does not contain dir1";
+  like $path_set, qr{dir3}, "does contain dir3";
+  
 };
