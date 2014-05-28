@@ -63,6 +63,10 @@ Write configuration to I<filename> instead of standard output
 
 Generate fish shell configuration
 
+=head2 --help
+
+Print help message and exit
+
 =head2 --korn
 
 Generate korn shell configuration
@@ -74,6 +78,15 @@ Generate Power shell configuration
 =head2 --sh
 
 Generate bourne shell configuration
+
+=head2 --trim | -t
+
+Trim non-existing directories.  This is a good idea since such directories can 
+sometimes cause L<spaceless> to die.
+
+=head2 --version | v
+
+Print version number and exit
 
 =cut
 

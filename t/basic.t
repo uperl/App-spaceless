@@ -3,7 +3,7 @@ use warnings;
 use v5.10;
 use Capture::Tiny qw( capture capture_stdout );
 use App::spaceless;
-use Test::More tests => 6;
+use Test::More tests => 7;
 use Env qw( @PATH );
 use File::Temp qw( tempdir );
 use Path::Class qw( file dir );
@@ -257,4 +257,28 @@ subtest 'actual spacelessness' => sub {
   like $path, qr{no_space2}, "contains no_space2";
   like $path, qr{reallyreallyreallyreallyreallylongpath}, 'contains reallyreallyreallyreallyreallylongpath';
   
+};
+
+subtest 'trim' => sub {
+  plan tests => 3;
+  my $tmp = dir( tempdir ( CLEANUP => 1 ));
+  plan skip_all => "$tmp matches dir1 or dir2" if $tmp =~ /dir[12]/;
+  
+  $ENV{FOO} = join $Config{path_sep}, $tmp->subdir('dir1'), $tmp->subdir('dir2');
+  $tmp->subdir('dir1')->mkpath(0,0700);
+  
+  my $path_set;
+  
+  subtest 'spaceless --trim --sh FOO' => sub {
+    my($out, $err, $exit) = capture { App::spaceless->main('--trim', '--sh', 'FOO') };
+    is $exit, 0, 'exit okay';
+    is $err, '', 'no error';
+    isnt $out, '', 'some output';
+    $path_set = $out;
+  };
+  
+  note $path_set;
+  
+  like $path_set, qr{dir1}, 'contains dir1';
+  unlike $path_set, qr{dir2}, 'does not contain dir2';
 };

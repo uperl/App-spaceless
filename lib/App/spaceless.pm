@@ -35,6 +35,7 @@ sub main
   my $file;
   my $help;
   my $version;
+  my $trim;
 
   GetOptions(
     'csh'       => sub { $shell = Shell::Guess->c_shell },
@@ -44,6 +45,7 @@ sub main
     'fish'      => sub { $shell = Shell::Guess->fish_shell },
     'korn'      => sub { $shell = Shell::Guess->korn_shell },
     'power'     => sub { $shell = Shell::Guess->power_shell },
+    'trim|t'    => \$trim,
     'f=s'       => \$file,
     'help|h'    => \$help,
     'version|v' => \$version,
@@ -72,7 +74,7 @@ sub main
   foreach my $var (@ARGV)
   {
     $config->set_path(
-      $var => $filter->(win32_space_be_gone split /$sep/, $ENV{$var} // '')
+      $var => grep { $trim ? -d $_ : 1 } $filter->(win32_space_be_gone split /$sep/, $ENV{$var} // '')
     );
   }
 
