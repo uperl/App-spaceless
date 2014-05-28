@@ -3,7 +3,7 @@ use warnings;
 use v5.10;
 use Capture::Tiny qw( capture capture_stdout );
 use App::spaceless;
-use Test::More tests => 5;
+use Test::More tests => 6;
 use Env qw( @PATH );
 use File::Temp qw( tempdir );
 use Path::Class qw( file dir );
@@ -218,3 +218,43 @@ subtest 'bourne shell' => sub {
   };
 };
 
+subtest 'actual spacelessness' => sub {
+  plan skip_all => 'only for MSWin32 and cygwin' unless $^O =~ /^(MSWin32|cygwin)$/;
+  plan tests => 6;
+
+  my $tmp = dir( tempdir( CLEANUP => 1 ));
+  
+  my @foo = map { $tmp->subdir($_) } 'nospace1', 'one space', 'no_space2', 'reallyreallyreallyreallyreallylongpath';
+  note capture_stdout { $_->mkpath(1, 0700) for @foo };
+  
+  $ENV{FOO} = join $Config{path_sep}, @foo;
+  note "FOO=$ENV{FOO}";
+  
+  my $path_set;
+  
+  subtest 'spaceless --sh FOO' => sub {
+    my($out, $err, $exit) = capture { App::spaceless->main('--sh', 'FOO') };
+    is $exit, 0, 'exit okay';
+    is $err, '', 'no error';
+    isnt $out, '', 'some output';
+    $path_set = $out;
+  };
+  
+  my $path;
+  
+  if($path_set =~ /FOO='(.*?)'/)
+  {
+    $path = $1;
+    pass "found path $path";
+  }
+  else
+  {
+    fail 'path not found';
+  }
+  
+  unlike $path, qr{\s}, "no white space";
+  like $path, qr{nospace1}, "contains nospace1";
+  like $path, qr{no_space2}, "contains no_space2";
+  like $path, qr{reallyreallyreallyreallyreallylongpath}, 'contains reallyreallyreallyreallyreallylongpath';
+  
+};
