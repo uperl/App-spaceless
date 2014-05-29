@@ -1,6 +1,9 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.03      2014-05-29 07:43:32 -0400
+  - first CPAN release
   - added --login option
   - added --list option
   - added --squeeze option
