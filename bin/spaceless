@@ -75,6 +75,14 @@ Print help message and exit
 
 Generate korn shell configuration
 
+=head2 --login
+
+Use the your default login shell (as determined by L<Shell::Guess>)
+On Unix style systems this consults the C<GECOS> field in the
+C</etc/passwd> file or uses NIS.  On other platforms it may use
+another means to determine your login shell, or simply make an
+informed guess based on the platform.
+
 =head2 --no-cygwin
 
 Remove any cygwin paths.  Has no affect on non cygwin platforms.

@@ -47,6 +47,7 @@ sub main
     'fish'      => sub { $shell = Shell::Guess->fish_shell },
     'korn'      => sub { $shell = Shell::Guess->korn_shell },
     'power'     => sub { $shell = Shell::Guess->power_shell },
+    'login'     => sub { $shell = Shell::Guess->login_shell },
     'no-cygwin' => sub { $cygwin = 0 if $^O eq 'cygwin' },
     'expand|x'  => \$expand,
     'trim|t'    => \$trim,
@@ -67,7 +68,7 @@ sub main
   }
 
   $shell = _running_shell() unless defined $shell;
-
+  
   my $filter = $^O eq 'cygwin' && $shell->is_win32 ? sub { map { Cygwin::posix_to_win_path($_) } @_ } : sub { @_ };
 
   @ARGV = ('PATH') unless @ARGV;
