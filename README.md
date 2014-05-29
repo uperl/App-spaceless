@@ -39,6 +39,10 @@ that do not have spaces.  By default it uses [Shell::Guess](https://metacpan.org
 guess as to the shell you are currently using (not your login shell).  You may
 alternately specify a specific shell type using one of the options below.
 
+[spaceless](https://metacpan.org/pod/spaceless) will not convert long directory (non 8.3 format) names that do not
+have spaces, as these are usually handled gracefully by scripts that are space
+challenged.
+
 # OPTIONS
 
 ## --cmd
