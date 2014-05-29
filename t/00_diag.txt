@@ -1,6 +1,4 @@
 Capture::Tiny
-Env
-File::Temp
 Module::Build
 Path::Class
 Shell::Config::Generate
