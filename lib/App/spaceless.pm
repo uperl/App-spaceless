@@ -65,7 +65,7 @@ sub main
     'f=s'       => \$file,
     'help|h'    => \$help,
     'version|v' => \$version,
-  );
+  ) || pod2usage(1);
 
   if($help)
   {
