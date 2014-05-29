@@ -98,6 +98,16 @@ Generate Power shell configuration
 
 Generate bourne shell configuration
 
+## --sep _char_ | --sep-in _char_ | --sep-out _char_
+
+You can use these options to change the path separator character.
+Normally you do not need to set this.  the Platform default is used for
+input (`:` for Unix and cygwin, and `;` for Windows) and the shell
+default is used for output (`:` for sh and csh, and `;` for `command.com`
+and `cmd.exe`).  But in some situation you might want a UNIX style path
+in a `cmd.exe` script.  Any character may be specified, but keep in mind
+that not all characters are supported by [Shell::Config::Generate](https://metacpan.org/pod/Shell::Config::Generate).
+
 ## --squash | -s
 
 Remove duplicate paths from the given path style variable.

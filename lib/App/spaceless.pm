@@ -41,6 +41,10 @@ sub main
   my $list;
   my $squash;
 
+  my $config = Shell::Config::Generate->new;
+  $config->echo_off;
+  my $sep = quotemeta $Config{path_sep};
+  
   GetOptions(
     'csh'       => sub { $shell = Shell::Guess->c_shell },
     'sh'        => sub { $shell = Shell::Guess->bourne_shell },
@@ -50,6 +54,9 @@ sub main
     'korn'      => sub { $shell = Shell::Guess->korn_shell },
     'power'     => sub { $shell = Shell::Guess->power_shell },
     'login'     => sub { $shell = Shell::Guess->login_shell },
+    'sep=s'     => sub { $sep = quotemeta $_[1]; $config->set_path_sep($_[1]) },
+    'sep-in=s'  => sub { $sep = quotemeta $_[1] },
+    'sep-out=s' => sub { $config->set_path_sep($_[1]) },
     'squash|s'  => \$squash,
     'no-cygwin' => sub { $cygwin = 0 if $^O eq 'cygwin' },
     'list|l'    => \$list,
@@ -76,9 +83,6 @@ sub main
   my $filter = $^O eq 'cygwin' && $shell->is_win32 ? sub { map { Cygwin::posix_to_win_path($_) } @_ } : sub { @_ };
 
   @ARGV = ('PATH') unless @ARGV;
-  my $config = Shell::Config::Generate->new;
-  $config->echo_off;
-  my $sep = quotemeta $Config{path_sep};
 
   my $to_long = $^O eq 'cygwin' ? sub { Cygwin::win_to_posix_path(Win32::GetLongPathName(Cygwin::posix_to_win_path($_))) } : sub { Win32::GetLongPathName($_[0]) };
 

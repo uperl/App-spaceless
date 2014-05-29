@@ -104,6 +104,16 @@ Generate Power shell configuration
 
 Generate bourne shell configuration
 
+=head2 --sep I<char> | --sep-in I<char> | --sep-out I<char>
+
+You can use these options to change the path separator character.
+Normally you do not need to set this.  the Platform default is used for
+input (C<:> for Unix and cygwin, and C<;> for Windows) and the shell
+default is used for output (C<:> for sh and csh, and C<;> for C<command.com>
+and C<cmd.exe>).  But in some situation you might want a UNIX style path
+in a C<cmd.exe> script.  Any character may be specified, but keep in mind
+that not all characters are supported by L<Shell::Config::Generate>.
+
 =head2 --squash | -s
 
 Remove duplicate paths from the given path style variable.
