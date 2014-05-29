@@ -1,6 +1,6 @@
 # spaceless
 
-Convert PATH type environment variables to spaceless versions
+Remove spaces and other hazards from your PATH 
 
 # SYNOPSIS
 
