@@ -39,6 +39,7 @@ sub main
   my $cygwin = 1;
   my $expand;
   my $list;
+  my $squash;
 
   GetOptions(
     'csh'       => sub { $shell = Shell::Guess->c_shell },
@@ -49,6 +50,7 @@ sub main
     'korn'      => sub { $shell = Shell::Guess->korn_shell },
     'power'     => sub { $shell = Shell::Guess->power_shell },
     'login'     => sub { $shell = Shell::Guess->login_shell },
+    'squash|s'  => \$squash,
     'no-cygwin' => sub { $cygwin = 0 if $^O eq 'cygwin' },
     'list|l'    => \$list,
     'expand|x'  => \$expand,
@@ -89,6 +91,13 @@ sub main
       grep { $cygwin ? 1 : $_ =~ qr{^([A-Za-z]:|/cygdrive/[A-Za-z])} } 
       split /$sep/, $ENV{$var} // ''
     ));
+    
+    if($squash)
+    {
+      my %path;
+      @path = grep { !$path{$_}++ } @path;
+    }
+    
     $config->set_path( $var => @path );
     do { say $_ for @path } if $list;
   }

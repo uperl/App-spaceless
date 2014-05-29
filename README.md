@@ -27,13 +27,17 @@ Same thing from `cmd.exe` or `command.com` prompt:
 
 # DESCRIPTION
 
-`spaceless` converts PATH style environment variables on windows into equivalents
+Although legal in most modern operating system directory names, spaces are only
+frequently encountered in Windows.  This can be troublesome for some tools that
+do not take such antics into account.  Fortunately, Windows provides alternate 
+file and directory names for any name that is not compatible with MS DOS.  Since
+spaces were never supported by MS DOS we can use these alternate names for tools
+that don't take spaces into account.
+
+[spaceless](https://metacpan.org/pod/spaceless) converts PATH style environment variables on windows into equivalents
 that do not have spaces.  By default it uses [Shell::Guess](https://metacpan.org/pod/Shell::Guess) to make a reasonable
 guess as to the shell you are currently using (not your login shell).  You may
 alternately specify a specific shell type using one of the options below.
-
-This may be useful if you have tools that require PATH style environment variables
-not include spaces.
 
 # OPTIONS
 
@@ -94,6 +98,10 @@ Generate Power shell configuration
 
 Generate bourne shell configuration
 
+## --squash | -s
+
+Remove duplicate paths from the given path style variable.
+
 ## --trim | -t
 
 Trim non-existing directories.  This is a good idea since such directories can 
@@ -147,6 +155,26 @@ make it a little more readable
     N:\program32\GnuWin32\bin
     C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common
     ...
+
+## Remove duplicate directories in the path
+
+You can use the `-s` (short for `--squeeze`) option to squeeze out duplicate paths.
+It keeps the first instance of a directory in a path style variable, which is usually
+what you want.
+
+    % spaceless -l
+    /usr/local/bin
+    /usr/bin
+    /bin
+    /usr/local/bin
+    % spaceless -s -l
+    /usr/local/bin
+    /usr/bin
+    /bin
+
+You can then update the `PATH` with the eval trick:
+
+    % eval `spaceless -s`
 
 # AUTHOR
 
