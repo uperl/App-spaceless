@@ -75,6 +75,11 @@ Print help message and exit
 
 Generate korn shell configuration
 
+=head2 --list
+
+Instead of generating a shell configuration, list the directories
+in the given path style variable
+
 =head2 --login
 
 Use the your default login shell (as determined by L<Shell::Guess>)
@@ -104,6 +109,24 @@ sometimes cause L<spaceless> to die.
 
 Print version number and exit
 
+=head1 EXAMPLES
+
+=head2 Removing spaces from the PATH on Cygwin
+
+My motivation for writing this script was trying to get L<perlbrew> to work on Cygwin.
+Since Windows frequently includes spaces in its C<%PATH%> environment variable, and
+cygwin inherits them.
+
+ xian-x86_64% source ~/perl5/perlbrew/etc/cshrc
+ setenv: Too many arguments.
+ xian-x86_64% eval `spaceless PATH`
+ xian-x86_64% source ~/perl5/perlbrew/etc/cshrc
+ xian-x86_64%
+
+I could have manually updated my C<%PATH%> to not include spaces, or better yet submitted
+a patch to L<perlbrew> to fix its spacing problem.  This probably won't be the last script
+that I will have the spaces in the C<%PATH%> problem with.
+ 
 =cut
 
 exit App::spaceless->main(@ARGV);

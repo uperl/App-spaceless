@@ -2,6 +2,7 @@ Revision history for {{$dist->name}}
 
 {{$NEXT}}
   - added --login option
+  - added --list option
 
 0.02      2014-05-28 08:53:13 -0400
   - added --expand | -x option

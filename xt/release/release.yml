@@ -9,6 +9,7 @@ pod_spelling_system:
     - exe
     - korn
     - spaceless
+    - NIS
 
 pod_coverage:
   skip: 0

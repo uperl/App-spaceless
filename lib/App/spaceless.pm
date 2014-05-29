@@ -38,6 +38,7 @@ sub main
   my $trim;
   my $cygwin = 1;
   my $expand;
+  my $list;
 
   GetOptions(
     'csh'       => sub { $shell = Shell::Guess->c_shell },
@@ -49,6 +50,7 @@ sub main
     'power'     => sub { $shell = Shell::Guess->power_shell },
     'login'     => sub { $shell = Shell::Guess->login_shell },
     'no-cygwin' => sub { $cygwin = 0 if $^O eq 'cygwin' },
+    'list|l'    => \$list,
     'expand|x'  => \$expand,
     'trim|t'    => \$trim,
     'f=s'       => \$file,
@@ -82,22 +84,25 @@ sub main
 
   foreach my $var (@ARGV)
   {
-    $config->set_path(
-      $var => $filter->($mutator->(
-        grep { $trim ? -d $_ : 1 } 
-        grep { $cygwin ? 1 : $_ =~ qr{^([A-Za-z]:|/cygdrive/[A-Za-z])} } 
-        split /$sep/, $ENV{$var} // ''
-      ))
-    );
+    my @path = $filter->($mutator->(
+      grep { $trim ? -d $_ : 1 } 
+      grep { $cygwin ? 1 : $_ =~ qr{^([A-Za-z]:|/cygdrive/[A-Za-z])} } 
+      split /$sep/, $ENV{$var} // ''
+    ));
+    $config->set_path( $var => @path );
+    do { say $_ for @path } if $list;
   }
 
-  if(defined $file)
+  unless($list)
   {
-    $config->generate_file($shell, $file);
-  }
-  else
-  {
-    print $config->generate($shell);
+    if(defined $file)
+    {
+      $config->generate_file($shell, $file);
+    }
+    else
+    {
+      print $config->generate($shell);
+    }
   }
   
   return 0;

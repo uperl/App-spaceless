@@ -69,6 +69,19 @@ Print help message and exit
 
 Generate korn shell configuration
 
+## --list
+
+Instead of generating a shell configuration, list the directories
+in the given path style variable
+
+## --login
+
+Use the your default login shell (as determined by [Shell::Guess](https://metacpan.org/pod/Shell::Guess))
+On Unix style systems this consults the `GECOS` field in the
+`/etc/passwd` file or uses NIS.  On other platforms it may use
+another means to determine your login shell, or simply make an
+informed guess based on the platform.
+
 ## --no-cygwin
 
 Remove any cygwin paths.  Has no affect on non cygwin platforms.
@@ -89,6 +102,24 @@ sometimes cause [spaceless](https://metacpan.org/pod/spaceless) to die.
 ## --version | v
 
 Print version number and exit
+
+# EXAMPLES
+
+## Removing spaces from the PATH on Cygwin
+
+My motivation for writing this script was trying to get [perlbrew](https://metacpan.org/pod/perlbrew) to work on Cygwin.
+Since Windows frequently includes spaces in its `%PATH%` environment variable, and
+cygwin inherits them.
+
+    xian-x86_64% source ~/perl5/perlbrew/etc/cshrc
+    setenv: Too many arguments.
+    xian-x86_64% eval `spaceless PATH`
+    xian-x86_64% source ~/perl5/perlbrew/etc/cshrc
+    xian-x86_64%
+
+I could have manually updated my `%PATH%` to not include spaces, or better yet submitted
+a patch to [perlbrew](https://metacpan.org/pod/perlbrew) to fix its spacing problem.  This probably won't be the last script
+that I will have the spaces in the `%PATH%` problem with.
 
 # AUTHOR
 
