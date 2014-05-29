@@ -69,7 +69,7 @@ Print help message and exit
 
 Generate korn shell configuration
 
-## --list
+## --list | -l
 
 Instead of generating a shell configuration, list the directories
 in the given path style variable
@@ -120,6 +120,33 @@ cygwin inherits them.
 I could have manually updated my `%PATH%` to not include spaces, or better yet submitted
 a patch to [perlbrew](https://metacpan.org/pod/perlbrew) to fix its spacing problem.  This probably won't be the last script
 that I will have the spaces in the `%PATH%` problem with.
+
+## Visualizing the PATH
+
+Reading the `%PATH%` variable can be difficult, especially if you have already
+removed the spaces and are using the short version.
+
+    C:\> echo %PATH%
+    N:\lang\perl\strawberry\x86\5.18.2\c\bin;N:\lang\perl\strawberry
+    \x86\5.18.2\perl\site\bin;N:\lang\perl\strawberry\x86\5.18.2\per
+    l\bin;n:\program32\GnuWin32\bin;C:\PROGRA~2\NVIDIA~1\PhysX\Commo
+    n;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Win
+    dows\System32\WindowsPowerShell\v1.0\;C:\PROGRA~1\MICROS~3\110\T
+    ools\Binn\;C:\PROGRA~2\Git\cmd;N:\lang\tcl\x86\8.6.1.0\bin;C:\PR
+    OGRA~2\NVIDIA~1\PhysX\Common;C:\PROGRA~2\Intel\ICLSCL~1\;C:\PROG
+    RA~1\Intel\ICLSCL~1\;C:\Windows\system32;C:\Windows;C:\Windows\S
+    ystem32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;
+
+You can use the `-l` (short for `--list`) and `-x` (short for `--expand`) options to
+make it a little more readable
+
+    C:\> spaceless -l -x
+    N:\lang\perl\strawberry\x86\5.18.2\c\bin
+    N:\lang\perl\strawberry\x86\5.18.2\perl\site\bin
+    N:\lang\perl\strawberry\x86\5.18.2\perl\bin
+    N:\program32\GnuWin32\bin
+    C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common
+    ...
 
 # AUTHOR
 
