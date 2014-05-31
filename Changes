@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.05      2014-05-31 12:42:32 -0400
   - capture warning from running shell during test
     to avoid failure
 
