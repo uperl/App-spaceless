@@ -3,11 +3,18 @@ use warnings;
 use v5.10;
 use Capture::Tiny qw( capture capture_stdout );
 use App::spaceless;
-use Test::More tests => 8;
+use Test::More tests => 9;
 use Env qw( @PATH );
 use File::Temp qw( tempdir );
 use Path::Class qw( file dir );
 use Config;
+
+subtest 'running_Shell' => sub {
+  my($out, $err, $shell) = capture { App::spaceless::_running_shell() };
+  note $err if $err;
+  isa_ok $shell, 'Shell::Guess';
+  note "guessed shell = ", $shell->name;
+};
 
 subtest '--version' => sub {
   plan tests => 3;
