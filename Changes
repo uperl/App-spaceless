@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  - bump version requirement for Shell::Guess to 0.04
+    to avoid infrequent test failure
 
 0.03      2014-05-29 07:43:32 -0400
   - first CPAN release
