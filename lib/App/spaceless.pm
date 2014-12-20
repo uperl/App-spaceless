@@ -2,7 +2,7 @@ package App::spaceless;
 
 use strict;
 use warnings;
-use v5.10;
+use 5.010001;
 use Config;
 use Shell::Guess;
 use Shell::Config::Generate qw( win32_space_be_gone );

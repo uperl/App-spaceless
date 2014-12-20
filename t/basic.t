@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use v5.10;
+use 5.010001;
 use Capture::Tiny qw( capture capture_stdout );
 use App::spaceless;
 use Test::More tests => 9;
