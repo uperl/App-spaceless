@@ -2,6 +2,10 @@ Revision history for {{$dist->name}}
 
 {{$NEXT}}
 
+0.06      2014-12-20 05:39:56 -0500
+  - internal cleanup
+  - now requires Perl 5.10.1
+
 0.05      2014-05-31 12:42:32 -0400
   - capture warning from running shell during test
     to avoid failure
