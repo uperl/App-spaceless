@@ -1,4 +1,4 @@
-# spaceless
+# spaceless [![Build Status](https://secure.travis-ci.org/plicease/App-spaceless.png)](http://travis-ci.org/plicease/App-spaceless)
 
 Remove spaces and other hazards from your PATH 
 
@@ -192,7 +192,7 @@ You can then update the `PATH` with the eval trick:
 
 # AUTHOR
 
-Graham Ollis <plicease@cpan.org>
+Graham Ollis &lt;plicease@cpan.org>
 
 # COPYRIGHT AND LICENSE
 

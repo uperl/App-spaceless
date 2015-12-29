@@ -1,6 +1,0 @@
-Capture::Tiny
-Module::Build
-Path::Class
-Shell::Config::Generate
-Shell::Guess
-Test::More
