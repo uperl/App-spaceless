@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.07      2015-12-29 15:50:09 -0500
   - skip directories that do not exist on cygwin.
     as they cannot be made spaceless.
 
