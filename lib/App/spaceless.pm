@@ -86,7 +86,7 @@ sub main
 
   my $to_long = $^O eq 'cygwin' ? sub { Cygwin::win_to_posix_path(Win32::GetLongPathName(Cygwin::posix_to_win_path($_))) } : sub { Win32::GetLongPathName($_[0]) };
 
-  my $mutator = $expand ? sub { map { $to_long->($_) } @_ } : sub { win32_space_be_gone(@_) };
+  my $mutator = $expand ? sub { map { $to_long->($_) } @_ } : sub { win32_space_be_gone(grep { -e $_ } @_) };
 
   foreach my $var (@ARGV)
   {

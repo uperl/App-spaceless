@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  - skip directories that do not exist on cygwin.
+    as they cannot be made spaceless.
 
 0.06      2014-12-20 05:39:56 -0500
   - internal cleanup
