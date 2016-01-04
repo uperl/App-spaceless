@@ -16,6 +16,7 @@ $modules{$_} = $_ for qw(
   Shell::Config::Generate
   Shell::Guess
   Test::More
+  Test::Script
 );
 
 
