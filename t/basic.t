@@ -81,9 +81,9 @@ subtest 'cmd.exe' => sub {
   
   my $run_cmd = sub {
     my($path) = @_;
-    $path = Cygwin::posix_to_win_path($path) if $^O eq 'cygwin';
+    $path = Cygwin::posix_to_win_path($path) if $^O =~ /^(cygwin|msys)$/;
     my @cmd = ($path);
-    @cmd = ($cmd_exe, '/c', @cmd) if $^O eq 'cygwin';
+    @cmd = ($cmd_exe, '/c', @cmd) if $^O =~ /^(cygwin|msys)$/;
     note "execute: @cmd";
     system @cmd;
     $?;
@@ -226,7 +226,7 @@ subtest 'bourne shell' => sub {
 };
 
 subtest 'actual spacelessness' => sub {
-  plan skip_all => 'only for MSWin32 and cygwin' unless $^O =~ /^(MSWin32|cygwin)$/;
+  plan skip_all => 'only for MSWin32 and cygwin' unless $^O =~ /^(MSWin32|cygwin|msys)$/;
   plan tests => 6;
 
   my $tmp = dir( tempdir( CLEANUP => 1 ));
@@ -291,7 +291,7 @@ subtest 'trim' => sub {
 };
 
 subtest '--no-cygwin' => sub {
-  plan skip_all => "cygwin only" unless $^O eq 'cygwin';
+  plan skip_all => "cygwin only" unless $^O =~ /^(cygwin|msys)$/;
   my $tmp = dir( tempdir ( CLEANUP => 1 ));
   plan skip_all => "$tmp matches dir1, dir2 or dir3" if $tmp =~ /dir[123]/;
   

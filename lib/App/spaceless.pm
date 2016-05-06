@@ -58,7 +58,7 @@ sub main
     'sep-in=s'  => sub { $sep = quotemeta $_[1] },
     'sep-out=s' => sub { $config->set_path_sep($_[1]) },
     'squash|s'  => \$squash,
-    'no-cygwin' => sub { $cygwin = 0 if $^O eq 'cygwin' },
+    'no-cygwin' => sub { $cygwin = 0 if $^O =~ /^(cygwin|msys)$/ },
     'list|l'    => \$list,
     'expand|x'  => \$expand,
     'trim|t'    => \$trim,
@@ -80,11 +80,11 @@ sub main
 
   $shell = _running_shell() unless defined $shell;
   
-  my $filter = $^O eq 'cygwin' && $shell->is_win32 ? sub { map { Cygwin::posix_to_win_path($_) } @_ } : sub { @_ };
+  my $filter = $^O =~ /^(cygwin|msys)$/ && $shell->is_win32 ? sub { map { Cygwin::posix_to_win_path($_) } @_ } : sub { @_ };
 
   @ARGV = ('PATH') unless @ARGV;
 
-  my $to_long = $^O eq 'cygwin' ? sub { Cygwin::win_to_posix_path(Win32::GetLongPathName(Cygwin::posix_to_win_path($_))) } : sub { Win32::GetLongPathName($_[0]) };
+  my $to_long = $^O =~ /^(cygwin|msys)$/ ? sub { Cygwin::win_to_posix_path(Win32::GetLongPathName(Cygwin::posix_to_win_path($_))) } : sub { Win32::GetLongPathName($_[0]) };
 
   my $mutator = $expand ? sub { map { $to_long->($_) } @_ } : sub { win32_space_be_gone(grep { -e $_ } @_) };
 
