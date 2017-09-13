@@ -1,9 +1,6 @@
-use strict;
-use warnings;
-use 5.010001;
-use Capture::Tiny qw( capture capture_stdout );
+use Test2::V0 -no_srand => 1;
 use App::spaceless;
-use Test::More tests => 9;
+use Capture::Tiny qw( capture capture_stdout );
 use Env qw( @PATH );
 use File::Temp qw( tempdir );
 use Path::Class qw( file dir );
@@ -17,7 +14,6 @@ subtest 'running_Shell' => sub {
 };
 
 subtest '--version' => sub {
-  plan tests => 3;
   my($out, $err, $ret) = capture { App::spaceless->main('--version') };
   chomp $out;
   is $ret, 1, 'exit is 1';
@@ -27,7 +23,6 @@ subtest '--version' => sub {
 };
 
 subtest '-v' => sub {
-  plan tests => 3;
   my($out, $err, $ret) = capture { App::spaceless->main('-v') };
   chomp $out;
   is $ret, 1, 'exit is 1';
@@ -43,7 +38,6 @@ subtest '-f' => sub {
   my $expected;
   
   subtest 'spaceless (no args)' => sub {
-    plan tests => 3;
     my($out, $err, $exit) = capture { App::spaceless->main };
     is $exit, 0, 'exit okay';
     is $err, '', 'error is empty';
@@ -57,7 +51,6 @@ subtest '-f' => sub {
   my $actual;
   
   subtest "spaceless -f $file" => sub {
-    plan tests => 3;
     my($out, $err, $exit) = capture { App::spaceless->main(-f => $file->stringify) };
     is $exit, 0, 'exit okay';
     is $err, '', 'error is empty';
@@ -72,9 +65,9 @@ subtest '-f' => sub {
 };
 
 subtest 'cmd.exe' => sub {
-  plan skip_all => 'only on MSWin32 and cygwin' unless $^O =~ /^(MSWin32|cygwin)$/;
+  skip_all 'only on MSWin32 and cygwin' unless $^O =~ /^(MSWin32|cygwin)$/;
   my($cmd_exe) = grep { -e $_ } grep !/\s/, map { "$_/cmd$Config{exe_ext}" } @PATH;
-  plan skip_all => 'unable to find sh' unless defined $cmd_exe;
+  skip_all 'unable to find sh' unless defined $cmd_exe;
   note 'full path:', $cmd_exe;
 
   my $tmp = dir( tempdir( CLEANUP => 1 ) );
@@ -90,15 +83,13 @@ subtest 'cmd.exe' => sub {
   };
   
   my $script1 = file( $tmp, 'test1.cmd' );
-  do {
+  {
     $script1->spew("\@echo off\necho hi there\n");
     my($out, $err, $ret) = capture { $run_cmd->($script1) };
-    plan skip_all => "really really simple .cmd script didn't exit 0" unless $ret == 0;
-    plan skip_all => "really really simple .cmd script had error output" unless $err eq '';
-    plan skip_all => "really really simple .cmd script didn't have the expected output" unless $out =~ /hi there/;
+    skip_all "really really simple .cmd script didn't exit 0" unless $ret == 0;
+    skip_all "really really simple .cmd script had error output" unless $err eq '';
+    skip_all "really really simple .cmd script didn't have the expected output" unless $out =~ /hi there/;
   };
-  
-  plan tests => 5;
   
   my $dir1 = dir($tmp, 'Program Files', 'Foo', 'bin');
   my $dir2 = dir($tmp, 'Program Files (x86)', 'Foo', 'bin');
@@ -111,7 +102,6 @@ subtest 'cmd.exe' => sub {
   my $set_path;
 
   subtest 'spaceless --cmd' => sub {
-    plan tests => 3;
     my($out, $err, $exit) = capture { App::spaceless->main('--cmd') };
     is $exit, 0, 'exit is 0';
     is $err, '', 'error is empty';
@@ -129,7 +119,6 @@ subtest 'cmd.exe' => sub {
   $dir1->file('script2.cmd')->openw->print("\@echo off\necho this is script TWO\n");
   
   subtest 'script2' => sub {
-    plan tests => 3;
     my($out, $err, $exit) = capture { $run_cmd->($tmp->file('caller2.cmd')) };
     is $exit, 0, 'exit okay';
     is $err, '', 'error is empty';
@@ -140,7 +129,6 @@ subtest 'cmd.exe' => sub {
   $dir2->file('script3.cmd')->openw->print("\@echo off\necho this is script THREE\n");
 
   subtest 'script3' => sub {
-    plan tests => 3;
     my($out, $err, $exit) = capture { $run_cmd->($tmp->file('caller3.cmd')) };
     is $exit, 0, 'exit okay';
     is $err, '', 'error is empty';
@@ -149,9 +137,9 @@ subtest 'cmd.exe' => sub {
 };
 
 subtest 'bourne shell' => sub {
-  plan skip_all => 'test does not work on MSWin32' if $^O eq 'MSWin32';
+  skip_all 'test does not work on MSWin32' if $^O eq 'MSWin32';
   my($sh_exe) = grep { -e $_ } grep !/\s/, map { "$_/sh$Config{exe_ext}" } @PATH;
-  plan skip_all => 'unable to find sh' unless defined $sh_exe;
+  skip_all 'unable to find sh' unless defined $sh_exe;
   note 'full path:', $sh_exe;
 
   my $tmp = dir( tempdir( CLEANUP => 1 ) );
@@ -168,12 +156,10 @@ subtest 'bourne shell' => sub {
   do {
     $script1->spew("#!/bin/sh\necho hi there\n");
     my($out, $err, $ret) = capture { $run_sh->($script1) };
-    plan skip_all => "really really simple sh script didn't exit 0" unless $ret == 0;
-    plan skip_all => "really really simple sh script had error output" unless $err eq '';
-    plan skip_all => "really really simple sh script didn't have the expected output" unless $out =~ /hi there/;
+    skip_all "really really simple sh script didn't exit 0" unless $ret == 0;
+    skip_all "really really simple sh script had error output" unless $err eq '';
+    skip_all "really really simple sh script didn't have the expected output" unless $out =~ /hi there/;
   };
-  
-  plan tests => 5;
   
   my $dir1 = dir($tmp, 'Program Files', 'Foo', 'bin');
   my $dir2 = dir($tmp, 'Program Files (x86)', 'Foo', 'bin');
@@ -186,7 +172,6 @@ subtest 'bourne shell' => sub {
   my $set_path;
 
   subtest 'spaceless --sh' => sub {
-    plan tests => 3;
     my($out, $err, $exit) = capture { App::spaceless->main('--sh') };
     is $exit, 0, 'exit is 0';
     is $err, '', 'error is empty';
@@ -205,7 +190,6 @@ subtest 'bourne shell' => sub {
   chmod(0700, $dir1->file('script2.sh'));
   
   subtest 'script2' => sub {
-    plan tests => 3;
     my($out, $err, $exit) = capture { $run_sh->($tmp->file('caller2.sh')) };
     is $exit, 0, 'exit okay';
     is $err, '', 'error is empty';
@@ -217,7 +201,6 @@ subtest 'bourne shell' => sub {
   chmod(0700, $dir2->file('script3.sh'));
 
   subtest 'script3' => sub {
-    plan tests => 3;
     my($out, $err, $exit) = capture { $run_sh->($tmp->file('caller3.sh')) };
     is $exit, 0, 'exit okay';
     is $err, '', 'error is empty';
@@ -226,8 +209,7 @@ subtest 'bourne shell' => sub {
 };
 
 subtest 'actual spacelessness' => sub {
-  plan skip_all => 'only for MSWin32 and cygwin' unless $^O =~ /^(MSWin32|cygwin)$/;
-  plan tests => 6;
+  skip_all 'only for MSWin32 and cygwin' unless $^O =~ /^(MSWin32|cygwin)$/;
 
   my $tmp = dir( tempdir( CLEANUP => 1 ));
   
@@ -267,9 +249,8 @@ subtest 'actual spacelessness' => sub {
 };
 
 subtest 'trim' => sub {
-  plan tests => 3;
   my $tmp = dir( tempdir ( CLEANUP => 1 ));
-  plan skip_all => "$tmp matches dir1 or dir2" if $tmp =~ /dir[12]/;
+  skip_all "$tmp matches dir1 or dir2" if $tmp =~ /dir[12]/;
   
   $ENV{FOO} = join $Config{path_sep}, $tmp->subdir('dir1'), $tmp->subdir('dir2');
   $tmp->subdir('dir1')->mkpath(0,0700);
@@ -291,9 +272,9 @@ subtest 'trim' => sub {
 };
 
 subtest '--no-cygwin' => sub {
-  plan skip_all => "cygwin only" unless $^O eq 'cygwin';
+  skip_all "cygwin only" unless $^O eq 'cygwin';
   my $tmp = dir( tempdir ( CLEANUP => 1 ));
-  plan skip_all => "$tmp matches dir1, dir2 or dir3" if $tmp =~ /dir[123]/;
+  skip_all "$tmp matches dir1, dir2 or dir3" if $tmp =~ /dir[123]/;
   
   my $dir3 = Cygwin::posix_to_win_path($tmp->subdir('dir3'));
   $dir3 =~ s{^(.):\\(.*)$}{/cygdrive/$1/$2};
@@ -319,3 +300,5 @@ subtest '--no-cygwin' => sub {
   like $path_set, qr{dir3}, "does contain dir3";
   
 };
+
+done_testing;
