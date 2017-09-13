@@ -1,4 +1,4 @@
-# spaceless [![Build Status](https://secure.travis-ci.org/plicease/App-spaceless.png)](http://travis-ci.org/plicease/App-spaceless)
+# spaceless [![Build Status](https://secure.travis-ci.org/plicease/App-spaceless.png)](http://travis-ci.org/plicease/App-spaceless) [![Build status](https://ci.appveyor.com/api/projects/status/9ft5r5x6tpjws2j2/branch/master?svg=true)](https://ci.appveyor.com/project/plicease/App-spaceless/branch/master)
 
 Remove spaces and other hazards from your PATH 
 
@@ -190,9 +190,15 @@ You can then update the `PATH` with the eval trick:
 
     % eval `spaceless -s`
 
+# CAVEATS
+
+Short names with the 8.3 spaceless naming convention can be turned off using tweaks
+to the windows registry (see [https://technet.microsoft.com/en-us/library/cc959352.aspx](https://technet.microsoft.com/en-us/library/cc959352.aspx)).
+This program would not be of much use on such a system.
+
 # AUTHOR
 
-Graham Ollis &lt;plicease@cpan.org>
+Graham Ollis <plicease@cpan.org>
 
 # COPYRIGHT AND LICENSE
 

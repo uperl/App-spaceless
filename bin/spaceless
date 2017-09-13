@@ -196,6 +196,12 @@ You can then update the C<PATH> with the eval trick:
 
  % eval `spaceless -s`
 
+=head1 CAVEATS
+
+Short names with the 8.3 spaceless naming convention can be turned off using tweaks
+to the windows registry (see L<https://technet.microsoft.com/en-us/library/cc959352.aspx>).
+This program would not be of much use on such a system.
+
 =cut
 
 exit App::spaceless->main(@ARGV);
