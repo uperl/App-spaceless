@@ -11,7 +11,7 @@ my $post_diag;
 
 $modules{$_} = $_ for qw(
   Capture::Tiny
-  Module::Build
+  ExtUtils::MakeMaker
   Path::Class
   Shell::Config::Generate
   Shell::Guess
