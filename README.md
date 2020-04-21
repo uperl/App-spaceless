@@ -1,4 +1,4 @@
-# spaceless [![Build Status](https://secure.travis-ci.org/plicease/App-spaceless.png)](http://travis-ci.org/plicease/App-spaceless) [![Build status](https://ci.appveyor.com/api/projects/status/9ft5r5x6tpjws2j2/branch/master?svg=true)](https://ci.appveyor.com/project/plicease/App-spaceless/branch/master)
+# spaceless [![Build Status](https://secure.travis-ci.org/plicease/App-spaceless.png)](http://travis-ci.org/plicease/App-spaceless) [![Build status](https://ci.appveyor.com/api/projects/status/9ft5r5x6tpjws2j2/branch/master?svg=true)](https://ci.appveyor.com/project/plicease/App-spaceless/branch/master) ![macos](https://github.com/plicease/App-spaceless/workflows/macos/badge.svg) ![windows](https://github.com/plicease/App-spaceless/workflows/windows/badge.svg)
 
 Remove spaces and other hazards from your PATH 
 
