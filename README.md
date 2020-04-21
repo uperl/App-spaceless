@@ -1,4 +1,4 @@
-# spaceless [![Build Status](https://secure.travis-ci.org/plicease/App-spaceless.png)](http://travis-ci.org/plicease/App-spaceless) [![Build status](https://ci.appveyor.com/api/projects/status/9ft5r5x6tpjws2j2/branch/master?svg=true)](https://ci.appveyor.com/project/plicease/App-spaceless/branch/master)
+# spaceless [![Build Status](https://secure.travis-ci.org/plicease/App-spaceless.png)](http://travis-ci.org/plicease/App-spaceless) [![Build status](https://ci.appveyor.com/api/projects/status/9ft5r5x6tpjws2j2/branch/master?svg=true)](https://ci.appveyor.com/project/plicease/App-spaceless/branch/master) ![macos](https://github.com/plicease/App-spaceless/workflows/macos/badge.svg) ![windows](https://github.com/plicease/App-spaceless/workflows/windows/badge.svg)
 
 Remove spaces and other hazards from your PATH 
 
@@ -6,24 +6,32 @@ Remove spaces and other hazards from your PATH
 
 Convert PATH (by default):
 
-    cygwin% spaceless
-    PATH=/usr/bin:/cygdrive/c/PROGRA~2/NVIDIA~1/PhysX/Common:...
-    export PATH
+```
+cygwin% spaceless
+PATH=/usr/bin:/cygdrive/c/PROGRA~2/NVIDIA~1/PhysX/Common:...
+export PATH
+```
 
 Convert another PATH style environment variable
 
-    cygwin% spaceless PERL5LIB
-    PERL5LIB=/PERL~1/lib:/PERL~2/lib
-    export PERL5LIB
+```
+cygwin% spaceless PERL5LIB
+PERL5LIB=/PERL~1/lib:/PERL~2/lib
+export PERL5LIB
+```
 
 Update the PATH in the current shell (works with both sh and csh):
 
-    cygwin% eval `spaceless PATH`
+```
+cygwin% eval `spaceless PATH`
+```
 
 Same thing from `cmd.exe` or `command.com` prompt:
 
-    C:\> spaceless PATH -f path.bat
-    C:\> path.bat
+```
+C:\> spaceless PATH -f path.bat
+C:\> path.bat
+```
 
 # DESCRIPTION
 
@@ -133,11 +141,13 @@ My motivation for writing this script was trying to get [perlbrew](https://metac
 Since Windows frequently includes spaces in its `%PATH%` environment variable, and
 cygwin inherits them.
 
-    xian-x86_64% source ~/perl5/perlbrew/etc/cshrc
-    setenv: Too many arguments.
-    xian-x86_64% eval `spaceless PATH`
-    xian-x86_64% source ~/perl5/perlbrew/etc/cshrc
-    xian-x86_64%
+```
+xian-x86_64% source ~/perl5/perlbrew/etc/cshrc
+setenv: Too many arguments.
+xian-x86_64% eval `spaceless PATH`
+xian-x86_64% source ~/perl5/perlbrew/etc/cshrc
+xian-x86_64%
+```
 
 I could have manually updated my `%PATH%` to not include spaces, or better yet submitted
 a patch to [perlbrew](https://metacpan.org/pod/perlbrew) to fix its spacing problem.  This probably won't be the last script
@@ -148,27 +158,31 @@ that I will have the spaces in the `%PATH%` problem with.
 Reading the `%PATH%` variable can be difficult, especially if you have already
 removed the spaces and are using the short version.
 
-    C:\> echo %PATH%
-    N:\lang\perl\strawberry\x86\5.18.2\c\bin;N:\lang\perl\strawberry
-    \x86\5.18.2\perl\site\bin;N:\lang\perl\strawberry\x86\5.18.2\per
-    l\bin;n:\program32\GnuWin32\bin;C:\PROGRA~2\NVIDIA~1\PhysX\Commo
-    n;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Win
-    dows\System32\WindowsPowerShell\v1.0\;C:\PROGRA~1\MICROS~3\110\T
-    ools\Binn\;C:\PROGRA~2\Git\cmd;N:\lang\tcl\x86\8.6.1.0\bin;C:\PR
-    OGRA~2\NVIDIA~1\PhysX\Common;C:\PROGRA~2\Intel\ICLSCL~1\;C:\PROG
-    RA~1\Intel\ICLSCL~1\;C:\Windows\system32;C:\Windows;C:\Windows\S
-    ystem32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;
+```
+C:\> echo %PATH%
+N:\lang\perl\strawberry\x86\5.18.2\c\bin;N:\lang\perl\strawberry
+\x86\5.18.2\perl\site\bin;N:\lang\perl\strawberry\x86\5.18.2\per
+l\bin;n:\program32\GnuWin32\bin;C:\PROGRA~2\NVIDIA~1\PhysX\Commo
+n;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Win
+dows\System32\WindowsPowerShell\v1.0\;C:\PROGRA~1\MICROS~3\110\T
+ools\Binn\;C:\PROGRA~2\Git\cmd;N:\lang\tcl\x86\8.6.1.0\bin;C:\PR
+OGRA~2\NVIDIA~1\PhysX\Common;C:\PROGRA~2\Intel\ICLSCL~1\;C:\PROG
+RA~1\Intel\ICLSCL~1\;C:\Windows\system32;C:\Windows;C:\Windows\S
+ystem32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;
+```
 
 You can use the `-l` (short for `--list`) and `-x` (short for `--expand`) options to
 make it a little more readable
 
-    C:\> spaceless -l -x
-    N:\lang\perl\strawberry\x86\5.18.2\c\bin
-    N:\lang\perl\strawberry\x86\5.18.2\perl\site\bin
-    N:\lang\perl\strawberry\x86\5.18.2\perl\bin
-    N:\program32\GnuWin32\bin
-    C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common
-    ...
+```
+C:\> spaceless -l -x
+N:\lang\perl\strawberry\x86\5.18.2\c\bin
+N:\lang\perl\strawberry\x86\5.18.2\perl\site\bin
+N:\lang\perl\strawberry\x86\5.18.2\perl\bin
+N:\program32\GnuWin32\bin
+C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common
+...
+```
 
 ## Remove duplicate directories in the path
 
@@ -176,19 +190,23 @@ You can use the `-s` (short for `--squeeze`) option to squeeze out duplicate pat
 It keeps the first instance of a directory in a path style variable, which is usually
 what you want.
 
-    % spaceless -l
-    /usr/local/bin
-    /usr/bin
-    /bin
-    /usr/local/bin
-    % spaceless -s -l
-    /usr/local/bin
-    /usr/bin
-    /bin
+```
+% spaceless -l
+/usr/local/bin
+/usr/bin
+/bin
+/usr/local/bin
+% spaceless -s -l
+/usr/local/bin
+/usr/bin
+/bin
+```
 
 You can then update the `PATH` with the eval trick:
 
-    % eval `spaceless -s`
+```
+% eval `spaceless -s`
+```
 
 # CAVEATS
 
