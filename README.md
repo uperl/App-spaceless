@@ -1,4 +1,4 @@
-# spaceless ![linux](https://github.com/plicease/App-spaceless/workflows/linux/badge.svg) ![macos](https://github.com/plicease/App-spaceless/workflows/macos/badge.svg) ![windows](https://github.com/plicease/App-spaceless/workflows/windows/badge.svg) ![cygwin](https://github.com/plicease/App-spaceless/workflows/cygwin/badge.svg) ![msys2-mingw](https://github.com/plicease/App-spaceless/workflows/msys2-mingw/badge.svg)
+# spaceless ![linux](https://github.com/uperl/App-spaceless/workflows/linux/badge.svg) ![macos](https://github.com/uperl/App-spaceless/workflows/macos/badge.svg) ![windows](https://github.com/uperl/App-spaceless/workflows/windows/badge.svg) ![cygwin](https://github.com/uperl/App-spaceless/workflows/cygwin/badge.svg) ![msys2-mingw](https://github.com/uperl/App-spaceless/workflows/msys2-mingw/badge.svg)
 
 Remove spaces and other hazards from your PATH 
 
