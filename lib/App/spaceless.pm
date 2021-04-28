@@ -44,7 +44,7 @@ sub main
   my $config = Shell::Config::Generate->new;
   $config->echo_off;
   my $sep = quotemeta $Config{path_sep};
-  
+
   GetOptions(
     'csh'       => sub { $shell = Shell::Guess->c_shell },
     'sh'        => sub { $shell = Shell::Guess->bourne_shell },
@@ -71,7 +71,7 @@ sub main
   {
     pod2usage({ -verbose => 2 });
   }
-  
+
   if($version)
   {
     say 'App::spaceless version ', ($App::spaceless::VERSION // 'dev');
@@ -79,7 +79,7 @@ sub main
   }
 
   $shell = _running_shell() unless defined $shell;
-  
+
   my $filter = $^O eq 'cygwin' && $shell->is_win32 ? sub { map { Cygwin::posix_to_win_path($_) } @_ } : sub { @_ };
 
   @ARGV = ('PATH') unless @ARGV;
@@ -91,17 +91,17 @@ sub main
   foreach my $var (@ARGV)
   {
     my @path = $filter->($mutator->(
-      grep { $trim ? -d $_ : 1 } 
-      grep { $cygwin ? 1 : $_ =~ qr{^([A-Za-z]:|/cygdrive/[A-Za-z])} } 
+      grep { $trim ? -d $_ : 1 }
+      grep { $cygwin ? 1 : m{^([A-Za-z]:|/cygdrive/[A-Za-z])} }
       split /$sep/, $ENV{$var} // ''
     ));
-    
+
     if($squash)
     {
       my %path;
       @path = grep { !$path{$_}++ } @path;
     }
-    
+
     $config->set_path( $var => @path );
     do { say $_ for @path } if $list;
   }
@@ -117,7 +117,7 @@ sub main
       print $config->generate($shell);
     }
   }
-  
+
   return 0;
 }
 
