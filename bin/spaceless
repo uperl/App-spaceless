@@ -6,7 +6,7 @@ use lib::findbin '../lib'; # dev-only
 use App::spaceless;
 
 # PODNAME: spaceless
-# ABSTRACT: Remove spaces and other hazards from your PATH 
+# ABSTRACT: Remove spaces and other hazards from your PATH
 # VERSION
 
 =head1 SYNOPSIS
@@ -36,7 +36,7 @@ Same thing from C<cmd.exe> or C<command.com> prompt:
 
 Although legal in most modern operating system directory names, spaces are only
 frequently encountered in Windows.  This can be troublesome for some tools that
-do not take such antics into account.  Fortunately, Windows provides alternate 
+do not take such antics into account.  Fortunately, Windows provides alternate
 file and directory names for any name that is not compatible with MS DOS.  Since
 spaces were never supported by MS DOS we can use these alternate names for tools
 that don't take spaces into account.
@@ -125,7 +125,7 @@ Remove duplicate paths from the given path style variable.
 
 =head2 --trim | -t
 
-Trim non-existing directories.  This is a good idea since such directories can 
+Trim non-existing directories.  This is a good idea since such directories can
 sometimes cause L<spaceless> to die.
 
 =head2 --version | v

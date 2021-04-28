@@ -1,6 +1,6 @@
 # spaceless ![linux](https://github.com/uperl/App-spaceless/workflows/linux/badge.svg) ![macos](https://github.com/uperl/App-spaceless/workflows/macos/badge.svg) ![windows](https://github.com/uperl/App-spaceless/workflows/windows/badge.svg) ![cygwin](https://github.com/uperl/App-spaceless/workflows/cygwin/badge.svg) ![msys2-mingw](https://github.com/uperl/App-spaceless/workflows/msys2-mingw/badge.svg)
 
-Remove spaces and other hazards from your PATH 
+Remove spaces and other hazards from your PATH
 
 # SYNOPSIS
 
@@ -37,7 +37,7 @@ C:\> path.bat
 
 Although legal in most modern operating system directory names, spaces are only
 frequently encountered in Windows.  This can be troublesome for some tools that
-do not take such antics into account.  Fortunately, Windows provides alternate 
+do not take such antics into account.  Fortunately, Windows provides alternate
 file and directory names for any name that is not compatible with MS DOS.  Since
 spaces were never supported by MS DOS we can use these alternate names for tools
 that don't take spaces into account.
@@ -126,7 +126,7 @@ Remove duplicate paths from the given path style variable.
 
 ## --trim | -t
 
-Trim non-existing directories.  This is a good idea since such directories can 
+Trim non-existing directories.  This is a good idea since such directories can
 sometimes cause [spaceless](https://metacpan.org/pod/spaceless) to die.
 
 ## --version | v
